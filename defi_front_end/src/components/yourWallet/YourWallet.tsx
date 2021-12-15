@@ -2,7 +2,7 @@ import { Token } from "../main"
 import React, { useState } from "react"
 import { Box, Tab } from "@material-ui/core"
 import { TabContext, TabList, TabPanel } from "@material-ui/lab"
-
+import { WalletBalance } from "./WalletBalance"
 
 
 interface YourWalletProps {
@@ -23,14 +23,16 @@ export const YourWallet = ({ supportedTokens }: YourWalletProps) => {
                 <TabContext value={selectedToken.toString()}>
                     <TabList onChange={handleChange} aria-label="stake form tabs">
                         {supportedTokens.map((token, index) => {
-                            return (<Tab label={token.name} value={index.toString()} key={index} />)
+                            return (
+                                <Tab label={token.name} value={index.toString()} key={index} />
+                            )
                         })}
                     </TabList>
                     {supportedTokens.map((token, index) => {
                         return (
                             <TabPanel value={index.toString()} key={index}>
                                 <div>
-                                    1. Balance
+                                    <WalletBalance token={supportedTokens[selectedToken]} />
                                     2. STAKE
                                 </div>
                             </TabPanel>

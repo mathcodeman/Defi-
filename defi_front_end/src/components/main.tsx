@@ -6,6 +6,7 @@ import networkMapping from "../chain-info/deployments/map.json"
 import { constants } from "ethers";
 import brownieConfig from "../brownie-config.json"
 import { YourWallet } from "./yourWallet/YourWallet";
+import DappToken from "./token.png"
 
 export type Token = {
     image: string
@@ -26,7 +27,7 @@ export const Main = () => {
 
     const supportedTokens: Array<Token> = [
         {
-            image: "ss.",
+            image: DappToken,
             address: dappTokenAddress,
             name: "DAPP"
         },
