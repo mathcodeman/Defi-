@@ -9,7 +9,7 @@ import shutil
 KEPT_BALANCE = Web3.toWei(100, "ether")
 
 
-def deploy_tokenFarm_and_dappToken(font_end_update=False):
+def deploy_tokenFarm_and_dappToken(front_end_update=False):
     account = get_account()
     dappToken = DappToken.deploy({"from": account})
     tokenFarm = TokenFarm.deploy(dappToken.address, {
@@ -26,7 +26,7 @@ def deploy_tokenFarm_and_dappToken(font_end_update=False):
         wethToken: get_contract("eth_usd_price_feed")
     }
     add_allowed_tokens(tokenFarm, dict_of_allowed_tokens, account)
-    if font_end_update:
+    if front_end_update:
         update_front_end()
     return tokenFarm, dappToken
 
@@ -62,4 +62,4 @@ def copy_folders_to_front_end(src, dest):
 
 
 def main():
-    deploy_tokenFarm_and_dappToken(font_end_update=True)
+    deploy_tokenFarm_and_dappToken(front_end_update=True)
