@@ -9,7 +9,11 @@ import { Main } from './components/main';
 function App() {
   return (
     <DAppProvider config={{
-      networks: [Kovan]
+      networks: [Kovan],
+      notifications: {
+        expirationPeriod: 1000,
+        checkInterval: 1000
+      }
     }}>
       <Header />
       <Container maxWidth="md">

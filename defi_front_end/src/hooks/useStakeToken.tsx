@@ -33,7 +33,7 @@ export const useStakeToken = (tokenAddress: string) => {
     }
 
     // stake function
-    const { send: stakeSend, state: stakeState } = useContractFunction(tokenFarmContract, "stakeToken", { transactionName: "Stake Token" })
+    const { send: stakeSend, state: stakeState } = useContractFunction(tokenFarmContract, "stakeToken", { transactionName: "Staked Token!!" })
     const [amountToStake, setAmountToStake] = useState("0");
 
 
@@ -43,8 +43,8 @@ export const useStakeToken = (tokenAddress: string) => {
         if (approveAndStakeErc20State.status === "Success") {
             stakeSend(amountToStake, tokenAddress)
         }
-    }, [approveAndStakeErc20State])
+    }, [approveAndStakeErc20State, tokenAddress, amountToStake])
 
 
-    return { approveAndStake, approveAndStakeErc20State }
+    return { approveAndStake, approveAndStakeErc20State, stakeState }
 }
