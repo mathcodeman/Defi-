@@ -8,6 +8,7 @@ import brownieConfig from "../brownie-config.json"
 import { YourWallet } from "./yourWallet/YourWallet";
 import DappToken from "./token.png"
 import { makeStyles } from "@material-ui/core";
+import { TokenFarm } from "./yourTokenFarm/TokenFarm";
 
 export type Token = {
     image: string
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export const Main = () => {
     const classes = useStyles()
     const { chainId } = useEthers();
-    const networkName = chainId ? helperConfig[chainId] : "dev"
+    const networkName = chainId ? helperConfig[chainId] : "dev";
 
     const dappTokenAddress = chainId ? networkMapping[String(chainId)]["DappToken"][0] : constants.AddressZero
     const wethTokenAddress = chainId ? brownieConfig["networks"][networkName]["weth_token"] : constants.AddressZero
@@ -56,6 +57,7 @@ export const Main = () => {
         <>
             <h2 className={classes.title}>Dapp Token App</h2>
             <YourWallet supportedTokens={supportedTokens} />
+            <TokenFarm supportedTokens={supportedTokens}></TokenFarm>
         </>
     )
 }
