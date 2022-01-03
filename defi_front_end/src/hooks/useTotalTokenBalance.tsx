@@ -5,7 +5,7 @@ import networkMapping from "../chain-info/deployments/map.json"
 import TokenFarm from "../chain-info/contracts/TokenFarm.json"
 
 
-export const useStakingBalance = (address: string): BigNumber | undefined => {
+export const useTokenBalance = (address: string): BigNumber | undefined => {
     //Get token farm contract
     const { chainId, account } = useEthers();
     const { abi } = TokenFarm;
@@ -13,12 +13,12 @@ export const useStakingBalance = (address: string): BigNumber | undefined => {
     const tokenFarmInterface = new utils.Interface(abi)
 
     //Call getUserSingleTokenValue function which returns view value
-    const [StakingBalance] = useContractCall({
+    const [TokenBalance] = useContractCall({
         abi: tokenFarmInterface,
         address: tokenFarmAddress,
-        method: "stakingBalance",
-        args: [address, account],
+        method: "getUserSingleTokenValue",
+        args: [account, address],
     }) ?? []
 
-    return StakingBalance
+    return TokenBalance
 }

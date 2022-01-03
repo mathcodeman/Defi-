@@ -18,6 +18,7 @@ export const StakeForm = ({ token }: StakeFormProps) => {
     const tokenBalance = useTokenBalance(tokenAddress, account);
     const formattedTokenBalance = tokenBalance ? parseFloat(formatUnits(tokenBalance, 18)) : 0;
     const { notifications } = useNotifications()
+    const isBalanceZero = formattedTokenBalance === 0
 
     const [amount, setAmount] = useState<number | string | Array<number | string>>(0)
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +58,9 @@ export const StakeForm = ({ token }: StakeFormProps) => {
         <>
             <div>
                 <Input onChange={handleInputChange} />
-                <Button onClick={handleStakeSubmit} color="primary" size="large" disabled={isMining}>{isMining ? <CircularProgress size={26} /> : "STAKE!!!"}</Button>
+            </div>
+            <div>
+                {isMining ? <CircularProgress size={26} /> : <Button onClick={handleStakeSubmit} variant="contained" color="primary" disabled={isMining || isBalanceZero}>STAKE</Button>}
             </div>
             <Snackbar open={showErc20ApprovalSuccess} autoHideDuration={6000} onClose={handleChange}>
                 <Alert onClose={handleChange} severity="success">

@@ -3,6 +3,8 @@ import { Box, Tab, makeStyles } from "@material-ui/core"
 import { TabContext, TabList, TabPanel } from "@material-ui/lab"
 import React, { useState } from "react"
 import { UnStake } from "./UnStake"
+import { useEthers } from "@usedapp/core"
+import { ConnectionMsg } from "../connectionMsg"
 
 
 interface Props {
@@ -33,28 +35,36 @@ export const TokenFarm = ({ supportedTokens }: Props) => {
         setSelectedToken(parseInt(newValue))
     }
 
+    const { account } = useEthers()
+
+    const isConnected = account !== undefined;
+
     const classes = useStyles();
     return (
         <>
             <Box>
                 <h1 className={classes.header}>The TokenFarm Contract</h1>
-                <Box className={classes.box}>
-                    <TabContext value={selectedToken.toString()}>
-                        <TabList onChange={handleChange} aria-label="stake form tabs">
+                {isConnected ?
+                    <Box className={classes.box}>
+                        <TabContext value={selectedToken.toString()}>
+                            <TabList onChange={handleChange} aria-label="stake form tabs">
+                                {supportedTokens.map((token, index) => {
+                                    return <Tab label={token.name} value={index.toString()} key={index} />
+                                })}
+                            </TabList>
                             {supportedTokens.map((token, index) => {
-                                return <Tab label={token.name} value={index.toString()} key={index} />
+                                return (
+                                    <TabPanel value={index.toString()} key={index.toString()}>
+                                        <div className={classes.tabContent}>
+                                            <UnStake token={supportedTokens[selectedToken]} />
+                                        </div>
+                                    </TabPanel>)
                             })}
-                        </TabList>
-                        {supportedTokens.map((token, index) => {
-                            return (
-                                <TabPanel value={index.toString()} key={index.toString()}>
-                                    <div className={classes.tabContent}>
-                                        <UnStake token={supportedTokens[selectedToken]} />
-                                    </div>
-                                </TabPanel>)
-                        })}
-                    </TabContext>
-                </Box>
+                        </TabContext>
+                    </Box>
+                    :
+                    <ConnectionMsg />
+                }
             </Box>
         </>
     )

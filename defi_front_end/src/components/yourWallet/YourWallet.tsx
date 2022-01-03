@@ -5,6 +5,7 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab"
 import { WalletBalance } from "./WalletBalance"
 import { StakeForm } from "./StakeForm"
 import { useEthers } from "@usedapp/core"
+import { ConnectionMsg } from "../connectionMsg"
 
 
 interface YourWalletProps {
@@ -71,11 +72,7 @@ export const YourWallet = ({ supportedTokens }: YourWalletProps) => {
                         </TabContext>
                     </Box>
                     :
-                    <Box className={classess.box}>
-                        <div className={classess.tabContentStart}>
-                            Please connect to your wallet!
-                        </div>
-                    </Box>
+                    <ConnectionMsg />
                 }
             </Box>
 

@@ -5,6 +5,7 @@ import TokenFarm from "../../chain-info/contracts/TokenFarm.json"
 import networkMapping from "../../chain-info/deployments/map.json"
 import { constants, utils, Contract } from "ethers";
 import { useStakingBalance } from "../../hooks/useStakingBalance"
+import { useTokenBalance } from "../../hooks/useTotalTokenBalance"
 import { formatUnits } from "ethers/lib/utils";
 
 interface Prop {
@@ -21,9 +22,17 @@ export const UnStake = ({ token }: Prop) => {
 
     const balance = useStakingBalance(token.address)
 
+    const value = useTokenBalance(token.address)
+
     const formattedBalance: number = balance
         ? parseFloat(formatUnits(balance, 18))
         : 0
+
+    const formattedValue: number = value
+        ? parseFloat(formatUnits(value, 18))
+        : 0
+
+
 
     const isBalanceZero = formattedBalance === 0;
 
@@ -37,12 +46,12 @@ export const UnStake = ({ token }: Prop) => {
     return (
         <>
             <div>
-                <h4>Your staking balance is: {formattedBalance}</h4>
+                <h4>Your staking balance is: {formattedBalance} (${formattedValue})</h4>
             </div>
             <div>
                 {isUnStaking ?
                     <CircularProgress size={26} /> :
-                    <Button onClick={handleUnstake} disabled={isBalanceZero}>Unstake All {token.name}</Button>}
+                    <Button onClick={handleUnstake} disabled={isBalanceZero} variant="contained" color="primary" >Unstake All {token.name}</Button>}
             </div>
         </>
     )
